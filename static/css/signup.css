@@ -1,0 +1,16 @@
+body {
+    background: linear-gradient(0.25turn, #f35454, #f8580a, #f35454) !important;
+}
+.card{
+    margin: 100px 150px;
+}
+.card-body{
+    padding: 100px;
+}
+
+.pr-150{
+    padding-right: 150px;
+}
+.form-outline{
+    margin-bottom: 18px !important;
+}

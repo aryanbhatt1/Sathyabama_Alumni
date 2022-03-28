@@ -1,0 +1,16 @@
+.events_section{
+    padding-top: 120px;
+}
+.on-hover {
+  -webkit-transition: 0.2s ease-in;
+  -o-transition: 0.2s ease-in;
+  transition: 0.2s ease-in;
+}
+.on-hover:hover {
+  -webkit-transform: translateY(-10px);
+  -ms-transform: translateY(-10px);
+  transform: translateY(-10px);
+}
+.event-btn{
+  margin-top: 10px  ;
+}

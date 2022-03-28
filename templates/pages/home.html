@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% block title %}Alumni | Home{% endblock %}
+{% block content %}
+    {% include 'includes/navbar.html' %}
+    <div id="carouselExampleSlidesOnly" class="carousel slide" data-mdb-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{% static 'img/DJI_0260.jpg' %}" class="d-block w-100" alt="Wild Landscape"/>
+                <div class="text-alumni carousel-caption d-none d-md-block">
+                    <h3 style="color: white;">Welcome</h3>
+                    <h1 class="h1-alumni">ALMUNI</h1>
+                    <h5 class="h5-alumni" style="color:white;">We are happy to see you back.</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--
+    <section class="container alumni-content" id="section-alumni">
+        <div class="row">
+            <div class="col-7">
+                {% load static %}
+                <img src="{% static 'img/alumni.png' %}">
+            </div>
+            <div class="col-5 text-alumni">
+                <div>
+                    <h3>Welcome</h3>
+                    <h1 class="h1-alumni">ALMUNI</h1>
+                    <h5 class="h5-alumni">We are happy to see you back.</h5>
+                </div>
+                <div class="discover">
+                    <a class="button-red" href="#">Discover</a>
+                </div>
+            </div>
+        </div>
+    </section>-->
+    <section class="sist-section sist-counter img" id="section-counter">
+        <div class="container">
+            <div class="row justify-content-center mb-5">
+                {% for total in total %}
+                <div class="col-md-7 text-center heading-section heading-section-white reveal">
+                    <span class="subheading">More than {{ total.total }} Alumni</span>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <div class="row">
+                        {% for row in overview %}
+                        <div class="col-md-3 d-flex justify-content-center counter-wrap reveal">
+                            <div class="block-18 text-center">
+                                <div class="text">
+                                    <strong class="count" data-value="{{ row.total }}">{{ row.total }}</strong>
+                                    <span>{{ row.total_text  }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="sist-recent py-5" id="section-recent">
+        <div class="container reveal">
+          <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+              <h3 class="my-3">Upcoming Events</h3>
+              <h6 class="subtitle font-weight-normal">There is nothing like returning to a place that remains unchanged to find the ways in which you yourself have altered.</h6>
+            </div>
+          </div>
+          <div class="row mt-4">
+              {% for upcoming_events in event_queries_upcoming %}
+            <div class="col-md-4 on-hover">
+                <div class="card border-0 mb-4">
+                  <a href="{% url 'viewevent' upcoming_events.id %}"><img class="card-img-top" src="{{ upcoming_events.poster.url }}" alt="alumni event"></a>
+                  <div class="date-pos bg-info-gradiant p-2 d-inline-block text-center rounded text-white position-absolute">{{ upcoming_events.date.month|month_filter|slice:3 }}<span class="d-block">{{ upcoming_events.date.day }}</span></div>
+                  <h5 class="font-weight-medium mt-3"><a href="#" class="text-decoration-none link"></a></h5>
+                  <p class="recent-p">Time: <span>{{ upcoming_events.time }}</span></p>
+                  <p class="recent-p">Venue: <span>{{ upcoming_events.venue }}</span></p>
+                </div>
+              </div>
+          </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% include 'includes/footer.html' %}
+    {% block js %}
+    <script>
+    function reveal() {
+        var reveals = document.querySelectorAll(".reveal");
+
+        for (var i = 0; i < reveals.length; i++) {
+            var windowHeight = window.innerHeight;
+            var elementTop = reveals[i].getBoundingClientRect().top;
+            var elementVisible = 150;
+
+            if (elementTop < windowHeight - elementVisible) {
+                reveals[i].classList.add("active");
+            } else {
+                reveals[i].classList.remove("active");
+            }
+        }
+    }
+
+    window.addEventListener("scroll", reveal);
+    </script>
+    {% endblock %}
+{% endblock %}

@@ -1,0 +1,52 @@
+{% url 'events' as events_url %}
+{% url 'home' as home_url %}
+{% url 'viewevent' id as viewevent_url %}
+{% load custom_tags     %}
+<nav class="navbar navbar-expand-lg navbar-dark sist_navbar bg-dark sist-navbar-light" id="sist-navbar">
+    <div class="container">
+        {% load static %}
+        <a class="navbar-brand" href="{% url 'home' %}"><img class="logo" src={% static 'img/logo.svg' %}></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sist-nav" aria-controls="sist-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fa fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="sist-nav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item {% if request.path == home_url %} active {% endif %}"><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+                <li class="nav-item {% if request.path == events_url %} active {% endif %} {% if request.path == viewevent_url %} active {% endif %}"><a href="{% url 'events' %}" class="nav-link">Events</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Contact</a></li>
+                <li class="nav-item cta"><a href="#loginModal" data-toggle="modal" class="nav-link"><span style="font-weight: bold !important;">Login/Register</span></a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div id="loginModal" class="modal fade">
+    <div class="modal-dialog modal-login">
+        <div class="modal-content center">
+            <form class="login-form" method="POST">
+                {% csrf_token %}
+                <div class="login-header">				
+                    <i class="icon-lock fas fa-lock-open fa-lg"></i>
+                    <h4 class="modal-title">Login</h4>
+                </div>
+                <div class="modal-body">				
+                    <div class="form-outline mb-20">
+                        <input type="text" name="username" class="form-control" />
+                        <label class="form-label" for="username"><i class="fas fa-user"></i> Username</label>
+                    </div>
+                    <div class="form-outline">
+                        <input type="password" name="password" id ="password" class="form-control" />
+                        <label class="form-label" for="password"><i class="fas fa-lock"></i> Password</label>
+                    </div>
+                    <div>
+                        <label class="label"><input class="input" type="checkbox" class="showPassword" onclick="showPassword()"/> Show Password </label>
+                        <a href="{% url 'alumnisignup' %}" class="float-right text-muted">Dont have an account? <strong class="SignUp">Sign Up</strong></a>
+                    </div>
+                    <div class="button-group">
+                        <input type="submit" class="btn btn-login" value="Login">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>  

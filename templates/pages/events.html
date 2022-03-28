@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% block title %}Alumni | Events{% endblock %}
+{% block extrastyle %}
+    <link rel="stylesheet" href="{% static 'css/events.css'%}" />
+{% endblock %}
+{% block content %}
+    {% include 'includes/navbar.html' %}
+    <section class="events_section" id="events">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+              <h3 class="my-3">All Events</h3>
+            </div>
+          </div>
+        <div class="row mt-4">
+        {% for events in events_queries %}
+            <div class="col-md-4 on-hover">
+                <div class="card border-0 mb-4">
+                  <a href="{% url 'viewevent' events.id %}"><img class="card-img-top" src="{{ events.poster.url }}" alt="alumni event"></a>
+                  <div class="date-pos bg-info-gradiant p-2 d-inline-block text-center rounded text-white position-absolute">{{ events.date.month|month_filter|slice:3 }}<span class="d-block">{{ events.date.day }}</span></div>
+                  <h5 class="font-weight-medium mt-3"><a href="#" class="text-decoration-none link"></a></h5>
+                  <p class="recent-p">Time: <span>{{ events.time }}</span></p>
+                  <p class="recent-p">Venue: <span>{{ events.venue }}</span></p>
+                    <a class="btn btn-danger event-btn" href="{% url 'viewevent' events.id %}">View</a>
+                </div>
+              </div>
+          </div>
+        {% endfor %}
+        </div>
+    </section>
+
+    {% include 'includes/footer.html' %}
+
+{% endblock %}
