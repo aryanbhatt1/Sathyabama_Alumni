@@ -12,3 +12,6 @@ class OverviewAdmin(admin.ModelAdmin):
 @admin.register(Events)
 class EventsAdmin(admin.ModelAdmin):
     pass
+
+
+admin.site.register(FacultyUser)

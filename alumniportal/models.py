@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.conf import settings
 
 class Degree(models.Model):
     Degree = models.CharField("Degree", max_length=50, null=True)
@@ -32,6 +32,14 @@ class Overview(models.Model):
 
 
 class Events(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+    )
+    user_name = models.CharField('User First Name', max_length=50, null=True)
+    last_name = models.CharField('User Last Name', max_length=50, null=True)
     title = models.CharField('Title', max_length=100, null=True)
     date = models.DateField('Date', null=True)
     time = models.TimeField('Time', null=True)
@@ -46,4 +54,13 @@ class Events(models.Model):
         verbose_name = "Event"
         verbose_name_plural = 'Events'
 
+
+class FacultyUser(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+    )
+    profile_image = models.ImageField(upload_to='profile_image', null=True)
 
