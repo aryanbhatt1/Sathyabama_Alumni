@@ -53,7 +53,9 @@
                                         </div> <!-- NOTIFICATIONS -->
                                         <div class="dropdown d-flex profile-1">
                                             <a href="javascript:void(0)" id="imageDropdown" data-mdb-toggle="dropdown" aria-expanded="false">
-                                                <img src="media/{{ current_user_image }}" alt="profile-user" class="avatar  profile-user brround cover-image">
+                                                {% for i in current_user_image %}
+                                                <img src="{{ i.profile_image.url }}" alt="profile-user" class="avatar  profile-user brround cover-image">
+                                                {% endfor %}
                                             </a>
                                             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" aria-labelledby="imageDropdown">
                                                 <li class="drop-heading">
@@ -97,7 +99,7 @@
                                         <a href="javascript:void(0)">Home</a>
                                     </li>
                                     <li>
-                                        <a href="javascript:void(0)" class="slide-item ">Dashboard</a>
+                                        <a href="{% url 'dashboard' %}" class="slide-item ">Dashboard</a>
                                     </li>
                                     <li>
                                         <a href="{% url 'home' %}" class="slide-item">Visit Site</a>
@@ -139,7 +141,7 @@
                                         <a href="javascript:void(0)">Authentication</a>
                                     </li>
                                     <li>
-                                        <a href="#" class="slide-item">Users</a>
+                                        <a href="{% url 'viewUsers' %}" class="slide-item">Users</a>
                                     </li>
                                 </ul>
                             </li>
@@ -184,6 +186,7 @@
                                     {%for field in form%}
                                         <div>{{field|as_crispy_field}}</div>
                                     {%endfor%}
+
                                     <button type="submit" class="btn btn-danger">Save</button>
                                 </form>
                                 {% if messages %}

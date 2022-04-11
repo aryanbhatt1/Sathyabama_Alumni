@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Alumni | Home{% endblock %}
+{% block title %}Alumni | View Users{% endblock %}
 {% block extrastyle %}
     <link rel="stylesheet" href="{% static  'css/dashboard/style.css'%}">
 {%endblock%}
 {% block content %}
-    <div class="page">
+      <div class="page">
         <div class="page-main">
             <!-- app-Header -->
             <div class="app-header header sticky" style="margin-bottom: -74px;">
@@ -53,7 +53,9 @@
                                         </div> <!-- NOTIFICATIONS -->
                                         <div class="dropdown d-flex profile-1">
                                             <a href="javascript:void(0)" id="imageDropdown" data-mdb-toggle="dropdown" aria-expanded="false">
-                                                <img src="media/{{ current_user_image }}" alt="profile-user" class="avatar  profile-user brround cover-image">
+                                                {% for i in current_user_image %}
+                                                <img src="{{ i.profile_image.url }}" alt="profile-user" class="avatar  profile-user brround cover-image">
+                                                {% endfor %}
                                             </a>
                                             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" aria-labelledby="imageDropdown">
                                                 <li class="drop-heading">
@@ -86,8 +88,8 @@
                             <li class="sub-category">
                                 <h3>Main</h3>
                             </li>
-                            <li class="slide is-expanded">
-                                <a class="side-menu__item active" data-bs-toggle="slide" href="{% url 'dashboard' %}">
+                            <li class="slide">
+                                <a class="side-menu__item" data-bs-toggle="slide" href="{% url 'dashboard' %}">
                                     <i class="side-menu__icon fe fe-home"></i>
                                     <span class="side-menu__label">Home</span>
                                     <i class="angle fe fe-chevron-right"></i>
@@ -97,7 +99,7 @@
                                         <a href="javascript:void(0)">Home</a>
                                     </li>
                                     <li>
-                                        <a href="javascript:void(0)" class="slide-item active">Dashboard</a>
+                                        <a href="{% url 'dashboard' %}" class="slide-item ">Dashboard</a>
                                     </li>
                                     <li>
                                         <a href="{% url 'home' %}" class="slide-item">Visit Site</a>
@@ -108,7 +110,7 @@
                                 <h3>Events</h3>
                             </li>
                             <li class="slide">
-                                <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)">
+                                <a class="side-menu__item active" data-bs-toggle="slide" href="javascript:void(0)">
                                     <i class="side-menu__icon fe fe-slack"></i>
                                     <span class="side-menu__label">Events</span>
                                     <i class="angle fe fe-chevron-right"></i>
@@ -121,7 +123,7 @@
                                         <a href="{% url 'addEvent' %}" class="slide-item">Add Events</a>
                                     </li>
                                     <li>
-                                        <a href="{% url 'viewEvents' %}" class="slide-item">Manage Events</a>
+                                        <a href="{% url 'viewEvents' %}" class="slide-item active">Manage Events</a>
                                     </li>
                                 </ul>
                             </li>
@@ -139,7 +141,7 @@
                                         <a href="javascript:void(0)">Authentication</a>
                                     </li>
                                     <li>
-                                        <a href="{% url 'viewUsers' %}" class="slide-item">Users</a>
+                                        <a href="#" class="slide-item">Users</a>
                                     </li>
                                 </ul>
                             </li>
@@ -163,41 +165,62 @@
             <div class="main-content app-content mt-0">
                 <div class="side-app">
                     <!-- CONTAINER -->
-                    <div class="row">
-                        <div class="col-md-10">
-                            <div class="main-container container">
+                    <div class="main-container container-fluid">
                         <!-- PAGE-HEADER -->
                         <div class="page-header">
-                            <h1 class="page-title">Home</h1>
+                            <h1 class="page-title">View Users</h1>
                             <div>
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item active">
-                                        <a href="javascript:void(0)" style="color: #f35454;">Home</a>
+                                    <li class="breadcrumb-item">
+                                        <a href="javascript:void(0)">Authentication</a>
                                     </li>
+                                    <li class="breadcrumb-item active" aria-current="page"></li>
                                 </ol>
                             </div>
                         </div>
-                        <!-- PAGE-HEADER END -->
-
-                        <div class="card container">
+                        <div class="card">
                             <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="post-user">
-                                            <img class="">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-8">
-
-                                    </div>
-                                </div>
+                                <table class="table align-middle mb-0 bg-white">
+                                    <thead class="bg-light">
+                                        <tr>
+                                            <th>S.No</th>
+                                            <th style="padding-left:25px;">username</th>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>Designation</th>
+                                            <th>Email ID</th>
+                                            <th style="padding-left: 25px;">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for row in final_user_list %}
+                                        <tr>
+                                            <td style="padding-top: 15px;">{{ forloop.counter }}</td>
+                                            <td>
+                                                <div class="d-flex">
+                                                    <div class="">
+                                                        <img src="{{ row.profile_photo }}" class="avatar  profile-user brround cover-image">
+                                                    </div>
+                                                    <div style="padding-left: 5px; padding-top: 5px;">
+                                                        {{ row.username }}
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td style="padding-top: 15px;">{{ row.first_name }}</td>
+                                            <td style="padding-top: 15px;">{{ row.last_name }}</td>
+                                            <td style="padding-top: 15px;">{{ row.designation }}</td>
+                                            <td style="padding-top: 15px;">{{ row.email_id }}</td>
+                                            <th>
+                                                <a class="btn btn-lg text-dark edit-button" style="padding: 0;"><i class="far fa-eye"></i></a>
+                                                <a class="btn btn-lg text-dark delete-button" style="padding: 0;" href=""><i class="far fa-trash-alt"></i></a>
+                                            </th>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                    </div>
-                        </div>
-                        <div class="col-md-2 right-sidebar">
-
-                        </div>
+                        <!-- PAGE-HEADER END -->
                     </div>
                 </div>
             </div>
@@ -221,6 +244,14 @@
         <script src="{% static 'js/sidebar.js' %}"></script>
         <script src="{% static 'js/custom.js' %}"></script>
         <script src="{% static 'js/sticky.js' %}"></script>
+        <script>
+            $(document).ready(function() {
+                $('#id_date').pickadate({
+                    format: 'dd-mm-yyyy',
+                    formatSubmit: 'dd-mm-yyyy'
+                });
 
+            });
+        </script>
     {% endblock %}
 {% endblock %}

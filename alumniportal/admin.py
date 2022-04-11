@@ -15,3 +15,8 @@ class EventsAdmin(admin.ModelAdmin):
 
 
 admin.site.register(FacultyUser)
+admin.site.register(Gender)
+admin.site.register(Degree)
+admin.site.register(YearOfCompletion)
+admin.site.register(EmploymentType)
+admin.site.register(PresentStatus)

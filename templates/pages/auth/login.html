@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extrastyle %}
+    <link rel="stylesheet" href="{% static 'css/signup.css'%}"/>
+{% endblock %}
+{% block content %}
+    <div class="body container-fluid">
+    <div class="card">
+        <div class="card-body pl-150 pr-150">
+            <div class="row">
+                <div class="col-md-7">
+                    <img class="alumni-image" src="{% static 'img/alumni.png' %}">
+                </div>
+                <div class="col-md-5" style="border: 1px solid red; padding: 20px; border-radius: 10px;">
+                    <div style="text-align: center;"><img class="logo" src={% static 'img/logo.svg' %}><br><h2 style="margin-top: 20px; font-weight: 500;">Login</h2></div>
+                    <form method="POST" style="padding-top: 30px;">
+                        {% csrf_token %}
+                <div class="form-outline">
+                    <input type="text" name="username" id="id_username" class="form-control form-control-lg" />
+                    <label class="form-label" for="id_username">Username</label>
+                </div>
+                <div class="form-outline">
+                    <input type="password" name="password" id="id_password" class="form-control form-control-lg" />
+                    <label class="form-label" for="id_password">Password</label>
+                </div>
+
+                <button class="btn btn-danger" type="submit">Login</button>
+            </form>
+                    {% for message in messages %}
+                <div class="alert alert-danger" style="margin-top: 30px">
+                    {{ message }}
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}

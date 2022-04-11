@@ -1,10 +1,12 @@
 from django.urls import path, include
 from . import views
+from django.conf import settings
 from django.views.i18n import JavaScriptCatalog
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.home, name='home'),
-    path('alumnisignup', views.AlumniSignUp, name='alumnisignup'),
+    path('signup', views.AlumniSignUp, name='alumnisignup'),
     path('dashboard', views.Dashboard, name='dashboard'),
     path('events', views.Event, name='events'),
     path('events/alumnimeetevent/<id>', views.EventsPage, name='viewevent'),
@@ -13,4 +15,11 @@ urlpatterns = [
     path('viewEvents', views.ViewEvents, name='viewEvents'),
     path('deleteEvents/<id>', views.deleteEvents, name='deleteEvents'),
     path('users/', include('django.contrib.auth.urls')),
+    path('viewUsers/', views.viewUsers, name='viewUsers'),
+    path('accounts/login/', views.UserLogin, name='login'),
+    path('signup/UserDetails/<id>', views.UserDetailsForm, name='userDetails')
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

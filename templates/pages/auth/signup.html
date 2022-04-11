@@ -9,7 +9,7 @@
         <div class="card-body pl-150 pr-150">
             <div class="row">
                 <div class="col-md-6">
-
+                    <img class="alumni-image" src="{% static 'img/alumni.png' %}">
                 </div>
                 <div class="col-md-6">
                     <form method="POST">
@@ -46,6 +46,11 @@
                 </div>
                 <button class="btn btn-danger" type="submit">Sign Up</button>
             </form>
+                    {% for message in messages %}
+                <div class="alert alert-danger" style="margin-top: 30px">
+                    <a href="{% url 'userDetails'   message %}">CLick</a>
+                    </div>
+                {% endfor %}
                 </div>
             </div>
         </div>
