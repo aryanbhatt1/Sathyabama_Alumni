@@ -8,7 +8,11 @@ from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse
 from django.contrib.auth.models import User
 from .models import *
-from .forms import AlumniSignUpForm, EventForm, FacultyUserForm
+from django.core.mail import BadHeaderError, send_mail
+from django.http import HttpResponse, HttpResponseRedirect
+from .forms import AlumniSignUpForm, EventForm, FacultyUserForm, contactForm
+from Sathyabama.settings import EMAIL_HOST_USER
+from django.core.mail import EmailMessage
 
 
 # Create your views here.
@@ -79,15 +83,9 @@ def Event(request):
 
 
 def EventsPage(request, id):
-    current_user_image = FacultyUser.objects.values_list('profile_image', flat=True).filter(user=request.user)[0]
-    current_user_first_name = request.user.first_name
-    current_user_last_name = request.user.last_name
     events_queries = Events.objects.get(id=id)
 
     context = {
-        'current_user_image': current_user_image,
-        'current_user_first_name': current_user_first_name,
-        'current_user_last_name': current_user_last_name,
         'events_queries': events_queries,
     }
     return render(request, 'pages/eventsPage.html', context=context)
@@ -109,7 +107,7 @@ def UserLogin(request):
 def home(request):
     overview = Overview.objects.all()
     total = Overview.objects.all().filter(total_text='Total')
-    event_queries_upcoming = Events.objects.filter(date__gte=today()).all()[:3]
+    event_queries_upcoming = Events.objects.all()[:3]
 
     dashboard_context = {
 
@@ -175,6 +173,14 @@ def deleteEvents(request, id=id):
     event = Events.objects.get(id=id)
     event.delete()
     return HttpResponseRedirect(reverse('viewEvents'))
+@login_required
+def EventView(request, id):
+    event = Events.objects.get(id=id)
+
+    context ={
+        'event': event,
+    }
+    return render(request, 'pages/admin/viewEventPage.html', context=context)
 
 @login_required
 def viewUsers(request):
@@ -202,3 +208,26 @@ def viewUsers(request):
     }
     return render(request, 'pages/admin/users_list.html', context=context)
 
+def contact(request):
+    if request.method == "POST":
+        form = contactForm(request.POST)
+        if form.is_valid():
+            subject = "Alumni Contact Form"
+            body = {
+                'first_name': form.cleaned_data['first_name'],
+                'last_name': form.cleaned_data['last_name'],
+                'email': form.cleaned_data['email'],
+                'message': form.cleaned_data['message'],
+            }
+            message = "\n".join(body.values())
+            try:
+                mail=EmailMessage(subject, message, EMAIL_HOST_USER, ['aryanbhatt1002@gmail.com'])
+                mail.send()
+            except BadHeaderError:
+                return HttpResponse('Invalid header found.')
+            return redirect("contact")
+    form = contactForm()
+    context = {
+        'form': form
+    }
+    return render(request, 'pages/contact.html', context=context)

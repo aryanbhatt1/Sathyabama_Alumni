@@ -17,7 +17,9 @@ urlpatterns = [
     path('users/', include('django.contrib.auth.urls')),
     path('viewUsers/', views.viewUsers, name='viewUsers'),
     path('accounts/login/', views.UserLogin, name='login'),
-    path('signup/UserDetails/<id>', views.UserDetailsForm, name='userDetails')
+    path('signup/UserDetails/<id>', views.UserDetailsForm, name='userDetails'),
+    path('contact', views.contact, name='contact'),
+    path('viewEvent/<id>', views.EventView, name='viewEvent')
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)

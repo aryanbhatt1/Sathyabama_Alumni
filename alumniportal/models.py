@@ -98,4 +98,3 @@ class FacultyUser(models.Model):
     mobile = models.IntegerField('Mobile', null=True)
     email_id = models.EmailField('Email', null=True)
 
-

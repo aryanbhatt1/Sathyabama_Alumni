@@ -30,6 +30,13 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = False
+EMAIL_HOST_USER = 'aryanbhatt.678@gmail.com'
+EMAIL_HOST_PASSWORD = 'Aryan567'
+EMAIL_FILE_PATH = '/temp'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -75,7 +82,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Sathyabama.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases

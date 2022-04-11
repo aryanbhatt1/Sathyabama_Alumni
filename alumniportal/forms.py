@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.forms import ModelForm, DateField, NumberInput
 from .models import Events, FacultyUser
 from django.contrib.admin import widgets
+from django import forms
 
 class AlumniSignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=True)
@@ -35,3 +36,9 @@ class FacultyUserForm(ModelForm):
                   'state_university', 'city_university', 'country_current',
                   'state_current', 'city_current', 'phone1', 'phone2',
                   'mobile', 'email_id')
+
+class contactForm(forms.Form):
+    first_name = forms.CharField(label='First Name')
+    last_name = forms.CharField(label='Last Name')
+    email = forms.EmailField(label='Email')
+    message = forms.CharField(label='Message', widget=forms.Textarea)

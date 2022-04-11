@@ -1,11 +1,21 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Alumni | View Event{% endblock %}
+{% block title %}Alumni | Add Event{% endblock %}
 {% block extrastyle %}
     <link rel="stylesheet" href="{% static  'css/dashboard/style.css'%}">
+    <style>
+    .form-photo{
+    margin: 0 auto;
+    width: 100%;
+    max-width: 600px;
+    display: block;
+    margin-top: 30px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
+}
+    </style>
 {%endblock%}
 {% block content %}
-      <div class="page">
+   <div class="page">
         <div class="page-main">
             <!-- app-Header -->
             <div class="app-header header sticky" style="margin-bottom: -74px;">
@@ -53,7 +63,9 @@
                                         </div> <!-- NOTIFICATIONS -->
                                         <div class="dropdown d-flex profile-1">
                                             <a href="javascript:void(0)" id="imageDropdown" data-mdb-toggle="dropdown" aria-expanded="false">
-                                                <img src="media/{{ current_user_image }}" alt="profile-user" class="avatar  profile-user brround cover-image">
+                                                {% for i in current_user_image %}
+                                                <img src="{{ i.profile_image.url }}" alt="profile-user" class="avatar  profile-user brround cover-image">
+                                                {% endfor %}
                                             </a>
                                             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" aria-labelledby="imageDropdown">
                                                 <li class="drop-heading">
@@ -166,45 +178,53 @@
                     <div class="main-container container-fluid">
                         <!-- PAGE-HEADER -->
                         <div class="page-header">
-                            <h1 class="page-title">View Events</h1>
+                            <h1 class="page-title">Event: {{ event.title }}</h1>
                             <div>
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
                                         <a href="javascript:void(0)">Events</a>
                                     </li>
-                                    <li class="breadcrumb-item active" aria-current="page">View Events</li>
+                                    <li class="breadcrumb-item" aria-current="page" style="color: #76839a;">View Events</li>
+                                    <li class="breadcrumb-item" aria-current="page" style="color: #f35454;">{{ event.title }}</li>
                                 </ol>
                             </div>
                         </div>
-                        <div class="card">
+                        <div class="container card">
                             <div class="card-body">
-                                <table class="table align-middle mb-0 bg-white">
-                                    <thead class="bg-light">
-                                        <tr>
-                                            <th>S.No</th>
-                                            <th>Title</th>
-                                            <th>Date</th>
-                                            <th>Time</th>
-                                            <th>venue</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for row in events %}
-                                        <tr>
-                                            <td>{{ forloop.counter }}</td>
-                                            <td>{{ row.title }}</td>
-                                            <td>{{ row.date }}</td>
-                                            <td>{{ row.time }}</td>
-                                            <td>{{ row.venue }}</td>
-                                            <td style="padding-left: 0">
-                                                <a class="btn btn-lg text-dark edit-button" style="padding: 0;" href="{% url 'viewEvent' row.id %}"><i class="far fa-eye"></i></a>
-                                                <a class="btn btn-lg text-dark delete-button" style="padding: 0;" href="{% url 'deleteEvents' row.id %}"><i class="far fa-trash-alt"></i></a>
-                                            </td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
+                                <img class="form-photo" src="{{ event.poster.url }}" style="border-radius: 8px;">
+                                <table class="table table-striped table-bordered" width="100%" style="margin-top: 50px;">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <td>{{ event.title }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Date</th>
+                                    <td>{{ event.date }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Time</th>
+                                    <td>{{ event.time }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Venue</th>
+                                    <td>{{ event.venue }}</td>
+                                </tr>
+                            <tr>
+                                    <th>Description</th>
+                                    <td>{{ event.description }}</td>
+                                </tr>
+                            <tr>
+                                    <th>Created by</th>
+                                    <td>{{ event.user_name }} {{ event.last_name }}</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+
+                                </tr>
+                            </tbody>
+                        </table>
                             </div>
                         </div>
                         <!-- PAGE-HEADER END -->
