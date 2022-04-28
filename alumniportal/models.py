@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
-
+"""
+"""
 class Gender(models.Model):
     gender = models.CharField("Gender", max_length=20, null=True)
 
@@ -53,6 +54,9 @@ class Events(models.Model):
     venue = models.CharField('Venue', max_length=50, null=True)
     description = models.TextField('Description', null=True)
     poster = models.ImageField('Poster', upload_to='Events/', null=True)
+    photo = models.ImageField('Photo', null=True)
+    date_time_upload = models.DateTimeField(null=True)
+
 
     def __str__(self):
         return self.title
@@ -95,6 +99,5 @@ class FacultyUser(models.Model):
     city_current= models.CharField('City', max_length=100, null=True)
     phone1 = models.IntegerField('Phone 1 (Office)', blank=True, null=True)
     phone2 = models.IntegerField('Phone 2 (Residence)', blank=True, null=True)
-    mobile = models.IntegerField('Mobile', null=True)
+    mobile = models.CharField('Mobile', max_length=20, null=True)
     email_id = models.EmailField('Email', null=True)
-

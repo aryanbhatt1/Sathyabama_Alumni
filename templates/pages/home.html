@@ -75,18 +75,19 @@
           </div>
             <div class="row mt-4">
                 {% for upcoming_events in event_queries_upcoming %}
-                    <div class="col-md-4 on-hover">
-                        <div class="card border-0 mb-4">
-                            <a href="{% url 'viewevent' upcoming_events.id %}"><img class="card-img-top" src="{{ upcoming_events.poster.url }}" alt="alumni event"></a>
-                            <div class="date-pos bg-info-gradiant p-2 d-inline-block text-center rounded text-white position-absolute">{{ upcoming_events.date.month|month_filter|slice:3 }}<span class="d-block">{{ upcoming_events.date.day }}</span></div>
-                  <h5 class="font-weight-medium mt-3"><a href="#" class="text-decoration-none link"></a></h5>
-                            <p class="recent-p">Title: <span>{{ upcoming_events.title }}</span></p>
-                  <p class="recent-p">Time: <span>{{ upcoming_events.time }}</span></p>
-                  <p class="recent-p">Venue: <span>{{ upcoming_events.venue }}</span></p>
-                </div>
-              </div>
+                  <div class="col-md-4 on-hover">
+                    <div class="card border-0 mb-4">
+                      <a href="{% url 'viewevent' upcoming_events.id %}"><img class="card-img-top" src="{{ upcoming_events.poster.url }}" alt="alumni event"></a>
+                      <div class="date-pos bg-info-gradiant p-2 d-inline-block text-center rounded text-white position-absolute">{{ upcoming_events.date.month|month_filter|slice:3 }}<span class="d-block">{{ upcoming_events.date.day }}</span></div>
+                      <h5 class="font-weight-medium mt-3"><a href="#" class="text-decoration-none link"></a></h5>
+                      <p class="recent-p">Title: <span>{{ upcoming_events.title }}</span></p>
+                      <p class="recent-p">Time: <span>{{ upcoming_events.time }}</span></p>
+                      <p class="recent-p">Venue: <span>{{ upcoming_events.venue }}</span></p>
+                    </div>
+                  </div>
+              {% endfor %}
           </div>
-            {% endfor %}
+
         </div>
     </section>
     {% include 'includes/footer.html' %}
@@ -107,7 +108,6 @@
             }
         }
     }
-
     window.addEventListener("scroll", reveal);
     </script>
     {% endblock %}

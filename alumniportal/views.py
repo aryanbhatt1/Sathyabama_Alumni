@@ -13,12 +13,11 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .forms import AlumniSignUpForm, EventForm, FacultyUserForm, contactForm
 from Sathyabama.settings import EMAIL_HOST_USER
 from django.core.mail import EmailMessage
-
+import datetime
 
 # Create your views here.
 def today():
     return datetime.today()
-
 
 
 def AlumniSignUp(request):
@@ -35,10 +34,11 @@ def AlumniSignUp(request):
         form.email = email
         form.save()
 
-        return redirect('signup/UserDetails/%d'%form.id)
+        return redirect('signup/UserDetails/%d' % form.id)
     else:
         form = AlumniSignUpForm()
     return render(request, 'pages/auth/signup.html', {'form': form})
+
 
 def UserDetailsForm(request, id):
     user_name = User.objects.get(id=id)
@@ -55,12 +55,19 @@ def UserDetailsForm(request, id):
     }
     return render(request, 'pages/auth/alumni_registration_form.html', context=context)
 
+
 @login_required
 def Dashboard(request):
     current_user_image = FacultyUser.objects.values_list('profile_image', flat=True).filter(user=request.user)[0]
     current_user_first_name = request.user.first_name
     current_user_last_name = request.user.last_name
-    context={
+    facultyUser_data = FacultyUser.objects.all()
+    events_data = Events.objects.all().order_by('-date_time_upload')
+
+
+    context = {
+        'facultyUser_data':facultyUser_data,
+        'events_data':events_data,
         'current_user_image': current_user_image,
         'current_user_first_name': current_user_first_name,
         'current_user_last_name': current_user_last_name,
@@ -90,6 +97,7 @@ def EventsPage(request, id):
     }
     return render(request, 'pages/eventsPage.html', context=context)
 
+
 def UserLogin(request):
     if request.method == "POST":
         username = request.POST['username']
@@ -99,10 +107,11 @@ def UserLogin(request):
             login(request, user)
             return redirect('dashboard')
         else:
-            messages.error(request,'Your Username or Password is incorrect or not approved.')
+            messages.error(request, 'Your Username or Password is incorrect or not approved.')
             return redirect('login')
 
     return render(request, 'pages/auth/login.html')
+
 
 def home(request):
     overview = Overview.objects.all()
@@ -124,10 +133,11 @@ def home(request):
             login(request, user)
             return redirect('dashboard')
         else:
-            messages.error(request,'Your Username or Password is incorrect')
+            messages.error(request, 'Your Username or Password is incorrect')
             return redirect('login')
 
     return render(request, 'pages/home.html', context=dashboard_context)
+
 
 @login_required
 def EventFormView(request):
@@ -143,6 +153,8 @@ def EventFormView(request):
             event_save.user = request.user
             event_save.user_name = request.user.first_name
             event_save.last_name = request.user.last_name
+            event_save.photo = FacultyUser.objects.values_list('profile_image', flat=True).filter(user=request.user)[0]
+            event_save.date_time_upload = datetime.datetime.now()
             event_save.save()
             return HttpResponseRedirect(reverse('addEvent'))
 
@@ -154,6 +166,7 @@ def EventFormView(request):
     }
 
     return render(request, 'pages/admin/eventform.html', context=context)
+
 
 @login_required
 def ViewEvents(request):
@@ -169,18 +182,22 @@ def ViewEvents(request):
     }
     return render(request, 'pages/admin/viewEvents.html', context=context)
 
+
 def deleteEvents(request, id=id):
     event = Events.objects.get(id=id)
     event.delete()
     return HttpResponseRedirect(reverse('viewEvents'))
+
+
 @login_required
 def EventView(request, id):
     event = Events.objects.get(id=id)
 
-    context ={
+    context = {
         'event': event,
     }
     return render(request, 'pages/admin/viewEventPage.html', context=context)
+
 
 @login_required
 def viewUsers(request):
@@ -200,13 +217,14 @@ def viewUsers(request):
                        'user_id': i.id, 'user_about_id': None}
                 final_user_list.append(dic)
 
-    context ={
+    context = {
         'current_user_image': current_user_image,
         'current_user_first_name': current_user_first_name,
         'current_user_last_name': current_user_last_name,
         'final_user_list': final_user_list,
     }
     return render(request, 'pages/admin/users_list.html', context=context)
+
 
 def contact(request):
     if request.method == "POST":
@@ -221,7 +239,7 @@ def contact(request):
             }
             message = "\n".join(body.values())
             try:
-                mail=EmailMessage(subject, message, EMAIL_HOST_USER, ['aryanbhatt1002@gmail.com'])
+                mail = EmailMessage(subject, message, EMAIL_HOST_USER, ['aryanbhatt1002@gmail.com'])
                 mail.send()
             except BadHeaderError:
                 return HttpResponse('Invalid header found.')

@@ -178,26 +178,82 @@
                             </div>
                         </div>
                         <!-- PAGE-HEADER END -->
-
-                        <div class="card container">
+                               {% for i in events_data %}
+                              <div class="card container">
                             <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="post-user">
-                                            <img class="">
+
+                              <div class="card border p-0 shadow-none">
+                                <div class="card-body">
+                                  <div class="d-flex">
+                                    <div class="media mt-0">
+                                      <div class="media-user me-2">
+                                        <div class="">
+                                          <img alt="" class="rounded-circle avatar avatar-md" src="{{ i.photo.url }}">
                                         </div>
+                                      </div>
+                                      <div class="media-body">
+                                        <h6 class="mb-0 mt-1">{{ i.user_name }} {{ i.last_name }}</h6>
+                                        <small class="text-muted">{{ i.date_time_upload }}</small>
+                                      </div>
                                     </div>
-                                    <div class="col-md-8">
+                                  </div>
+                                  <div class="mt-4 row">
+                                        <div class="col-md-5">
+
+                                      <a href="{% url 'viewEvent' i.id %}"  class="w-30 m-2"  style="padding-left: 60px;">
+                                        <img src="{{ i.poster.url }}" height="300" alt="img" class="br-5">
+                                      </a>
+
+                                        </div>
+                                    <div class="col-md-7">
+                                         <h4 class="fw-semibold mt-3">{{ i.title }}</h4>
+                                    <p class="mb-0">{{ i.description|linebreaks }}</p>
+                                      <br>
+                                       <p class="mb-0"><span style="font-weight: bolder;">Date: </span>{{ i.date }}</p>
+                                      <p class="mb-0"><span style="font-weight: bolder;">Time: </span>{{ i.time }}</p>
 
                                     </div>
                                 </div>
+                                <div class="card-footer user-pro-2" style="margin-top: 20px;">
+                                  <div class="media mt-0">
+                                    <div class="media-body">
+                                      <!--<h6 class="mb-0 mt-2 ms-2">28 people liked post</h6>-->
+                                    </div>
+                                    <div class="ms-auto">
+                                      <div class="d-flex mt-1">
+                                        <a class="new me-2 text-muted fs-16" href="JavaScript:void(0);">
+                                          <!--<span class=""><i class="fe fe-heart"></i></span>-->
+                                        </a>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
                             </div>
-                        </div>
-                    </div>
-                        </div>
-                        <div class="col-md-2 right-sidebar">
 
                         </div>
+                    </div>
+                                {% endfor %}
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-2 right-sidebar">
+                          <h3 style="margin-top: 30px;padding-left: 10px; ">All Users</h3>
+                          {% for i in facultyUser_data %}
+                          <div class="d-flex" style="padding-left: 10px; padding-top: 10px;">
+                            <div class="media mt-0">
+                              <div class="media-user me-2">
+                                <div class="d-flex">
+                                  <img alt="" class="rounded-circle avatar avatar-md" src="{{ i.profile_image.url }}">
+                                  <h6 class="mb-0 mt-1" style="padding-left: 10px; padding-top: 5px;  ">{{ i.first_name }} {{ i.last_name }}</h6>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          {% endfor %}
+                    </div>
                     </div>
                 </div>
             </div>
