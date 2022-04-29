@@ -26,16 +26,20 @@
         <script src="https://code.iconify.design/2/2.1.2/iconify.min.js"></script>
         <script src="{% static 'js/custom.js' %}"></script>
         {% block js %}
-        <script>
-            function showPassword() {
-                var x = document.getElementById("password");
-                if (x.type === "password") {
-                  x.type = "text";
-                } else {
-                  x.type = "password";
-                }
-              }
-        </script>
+
+          <script>
+          $('.count').each(function () {
+    $(this).prop('Counter',0).animate({
+        Counter: $(this).text()
+    }, {
+        duration: 3000,
+        easing: 'swing',
+        step: function (now) {
+            $(this).text(Math.ceil(now));
+        }
+    });
+});
+          </script>
         {% endblock %}
     </body>
 </html>

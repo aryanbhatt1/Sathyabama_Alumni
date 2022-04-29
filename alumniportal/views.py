@@ -33,7 +33,6 @@ def AlumniSignUp(request):
         form.last_name = last_name
         form.email = email
         form.save()
-
         return redirect('signup/UserDetails/%d' % form.id)
     else:
         form = AlumniSignUpForm()
@@ -47,7 +46,8 @@ def UserDetailsForm(request, id):
         form = FacultyUserForm(request.POST, request.FILES)
         if form.is_valid():
             user_save = form.save(commit=False)
-            user_save.username = user_name
+            print(user_name)
+            user_save.user = user_name
             user_save.save()
             return HttpResponseRedirect(reverse('home'))
     context = {
@@ -76,14 +76,10 @@ def Dashboard(request):
 
 
 def Event(request):
-    current_user_image = FacultyUser.objects.values_list('profile_image', flat=True).filter(user=request.user)[0]
-    current_user_first_name = request.user.first_name
-    current_user_last_name = request.user.last_name
     events_queries = Events.objects.all()
     context = {
-        'current_user_image': current_user_image,
-        'current_user_first_name': current_user_first_name,
-        'current_user_last_name': current_user_last_name,
+
+
         'events_queries': events_queries
     }
     return render(request, 'pages/events.html', context=context)
@@ -156,6 +152,7 @@ def EventFormView(request):
             event_save.photo = FacultyUser.objects.values_list('profile_image', flat=True).filter(user=request.user)[0]
             event_save.date_time_upload = datetime.datetime.now()
             event_save.save()
+            messages.success(request, 'Event Successfully Posted.')
             return HttpResponseRedirect(reverse('addEvent'))
 
     context = {
@@ -204,16 +201,15 @@ def viewUsers(request):
     current_user_image = FacultyUser.objects.all().filter(user=request.user)
     current_user_first_name = request.user.first_name
     current_user_last_name = request.user.last_name
-    user_list = User.objects.all()
+    user_list = User.objects.all().filter(is_staff=True)
     user_about = FacultyUser.objects.all()
 
     final_user_list = []
     for i in user_list:
         for j in user_about:
-            print(final_user_list)
             if i.username == j.user.username:
                 dic = {'username': i.username, 'first_name': i.first_name, 'last_name': i.last_name,
-                       'designation': j.designation, 'email_id': i.email, 'profile_photo': j.profile_image.url,
+                       'designation': j.EmploymentType, 'email_id': i.email, 'profile_photo': j.profile_image.url,
                        'user_id': i.id, 'user_about_id': None}
                 final_user_list.append(dic)
 
@@ -225,6 +221,56 @@ def viewUsers(request):
     }
     return render(request, 'pages/admin/users_list.html', context=context)
 
+def ApproveUser(request, id):
+    User.objects.filter(id=id).update(is_staff=True)
+    return redirect("approveUsers")
+
+def deleteUser(request, id):
+    user=User.objects.get(id=id)
+    FacultyUser.objects.filter(user=user).delete()
+    user.delete()
+    return redirect("viewUsers")
+
+def view_user_info(request, id):
+    user=User.objects.get(id=id)
+    user_data = FacultyUser.objects.all().filter(user=user)
+    current_user_image = FacultyUser.objects.all().filter(user=request.user)
+    current_user_first_name = request.user.first_name
+    current_user_last_name = request.user.last_name
+
+    context = {
+        'user_data':user_data,
+        'current_user_image':current_user_image,
+        'current_user_first_name':current_user_first_name,
+        'current_user_last_name':current_user_last_name,
+    }
+
+    return render(request, 'pages/admin/viewuserinfo.html', context=context)
+
+@login_required
+def approveUsers(request):
+    current_user_image = FacultyUser.objects.all().filter(user=request.user)
+    current_user_first_name = request.user.first_name
+    current_user_last_name = request.user.last_name
+    user_list = User.objects.all().filter(is_staff=False)
+    user_about = FacultyUser.objects.all()
+    final_user_list = []
+    for i in user_list:
+        for j in user_about:
+            print(final_user_list)
+            if i.username == j.user.username:
+                dic = {'username': i.username, 'first_name': i.first_name, 'last_name': i.last_name,
+                       'designation': j.EmploymentType, 'email_id': i.email, 'profile_photo': j.profile_image.url,
+                       'user_id': i.id, 'user_about_id': None}
+                final_user_list.append(dic)
+
+    context = {
+        'current_user_image': current_user_image,
+        'current_user_first_name': current_user_first_name,
+        'current_user_last_name': current_user_last_name,
+        'final_user_list': final_user_list,
+    }
+    return render(request, 'pages/admin/approve_user.html', context=context)
 
 def contact(request):
     if request.method == "POST":
@@ -241,6 +287,7 @@ def contact(request):
             try:
                 mail = EmailMessage(subject, message, EMAIL_HOST_USER, ['aryanbhatt1002@gmail.com'])
                 mail.send()
+                messages.success(request, 'Message Sent Successfully.')
             except BadHeaderError:
                 return HttpResponse('Invalid header found.')
             return redirect("contact")

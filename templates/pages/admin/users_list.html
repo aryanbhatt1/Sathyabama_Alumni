@@ -141,7 +141,10 @@
                                         <a href="javascript:void(0)">Authentication</a>
                                     </li>
                                     <li>
-                                        <a href="#" class="slide-item">Users</a>
+                                        <a href="#" class="slide-item">Manage Users</a>
+                                    </li>
+                                  <li>
+                                        <a href="{% url 'approveUsers' %}" class="slide-item">Approve Users</a>
                                     </li>
                                 </ul>
                             </li>
@@ -174,7 +177,7 @@
                                     <li class="breadcrumb-item">
                                         <a href="javascript:void(0)">Authentication</a>
                                     </li>
-                                    <li class="breadcrumb-item active" aria-current="page"></li>
+                                    <li class="breadcrumb-item active" aria-current="page">View User</li>
                                 </ol>
                             </div>
                         </div>
@@ -208,11 +211,11 @@
                                             </td>
                                             <td style="padding-top: 15px;">{{ row.first_name }}</td>
                                             <td style="padding-top: 15px;">{{ row.last_name }}</td>
-                                            <td style="padding-top: 15px;">{{ row.designation }}</td>
+                                              <td style="padding-top: 15px;">{{ row.designation }}</td>
                                             <td style="padding-top: 15px;">{{ row.email_id }}</td>
                                             <th>
-                                                <a class="btn btn-lg text-dark edit-button" style="padding: 0;"><i class="far fa-eye"></i></a>
-                                                <a class="btn btn-lg text-dark delete-button" style="padding: 0;" href=""><i class="far fa-trash-alt"></i></a>
+                                                <a class="btn btn-lg text-dark edit-button" style="padding: 0;" href="{% url 'viewUserInfo' row.user_id %}"><i class="far fa-eye"></i></a>
+                                                <a class="btn btn-lg text-dark delete-button" style="padding: 0;" href="{% url 'deleteUser' row.user_id %}"><i class="far fa-trash-alt"></i></a>
                                             </th>
                                         </tr>
                                         {% endfor %}

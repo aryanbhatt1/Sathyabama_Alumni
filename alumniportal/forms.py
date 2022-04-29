@@ -5,7 +5,7 @@ from django.contrib.admin.widgets import AdminDateWidget
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm, DateField, NumberInput
-from .models import Events, FacultyUser
+from .models import Events, FacultyUser, PresentStatus
 from django.contrib.admin import widgets
 from django import forms
 
@@ -27,10 +27,25 @@ class EventForm(ModelForm):
         fields = ['title', 'date', 'time', 'venue', 'description', 'poster']
 
 class FacultyUserForm(ModelForm):
+
+    present_employer_name = forms.CharField(required=False)
+    designation = forms.CharField(required=False)
+    country = forms.CharField(required=False)
+    state = forms.CharField(required=False)
+    city = forms.CharField(required=False)
+    special_achievement = forms.CharField(required=False)
+    present_status = forms.ModelChoiceField(queryset=PresentStatus.objects.all(),required=False)
+    university_name = forms.CharField(required=False)
+    country_university = forms.CharField(required=False)
+    state_university = forms.CharField(required=False)
+    city_university = forms.CharField(required=False)
+    phone1 = forms.IntegerField(required=False)
+    phone2 = forms.IntegerField(required=False)
+
     class Meta:
         model=FacultyUser
         fields = ('first_name', 'last_name', 'gender', 'profile_image',
-                  'YearOfCompletion', 'EmploymentType', 'present_employer_name',
+                  'YearOfCompletion', 'EmploymentType', 'degree','present_employer_name',
                   'designation', 'country', 'state', 'city', 'special_achievement',
                   'present_status', 'university_name', 'country_university',
                   'state_university', 'city_university', 'country_current',

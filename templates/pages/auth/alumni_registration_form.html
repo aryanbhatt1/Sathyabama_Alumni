@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load forms_fieldset static %}
+
 {% block extrastyle %}
     <link rel="stylesheet" href="{% static 'css/signup.css'%}"/>
+  <link rel="stylesheet" type="text/css" href="{% static 'forms_fieldset/css/main.css' %}">
     <style>
     .custom-select {
     display: inline-block;
@@ -37,13 +40,79 @@ select.browser-default {
             <h2>Alumni Registration Form</h2>
             <br>
             {% load crispy_forms_tags %}
-            <form method="POST">
+            <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <h6></h6>
-                {%for field in form%}
-                    <div>{{field|as_crispy_field}}</div>
-                {%endfor%}
+              <div class="row">
+                <div class="col-md-6">{{form.first_name|as_crispy_field}}</div>
+                <div class="col-md-6">{{ form.last_name|as_crispy_field}}</div>
+              </div>
+             <div class="row">
+                <div class="col-md-6">{{form.gender|as_crispy_field}}</div>
+                <div class="col-md-6">{{ form.profile_image|as_crispy_field}}</div>
+              </div>
+              <br>
+              <h3>Education Details @Sathyabama:</h3>
+               <div class="row">
+                  <div class="col-md-6">{{ form.degree|as_crispy_field}}</div>
+                <div class="col-md-6">{{form.YearOfCompletion|as_crispy_field}}</div>
+              </div>
+              <br>
+              <h3>Present Status</h3>
+              <div class="row">
+                  <div class="col-md-6">{{ form.EmploymentType|as_crispy_field}}</div>
+              </div>
+                 <br>
+              <h3>Employment Details</h3>
+                 <div class="row">
+                  <div class="col-md-6">{{ form.present_employer_name|as_crispy_field}}</div>
+                <div class="col-md-6">{{form.designation|as_crispy_field}}</div>
+              </div>
                 <br>
+              <h3>Work Location</h3>
+              <div class="row">
+                  <div class="col-md-6">{{ form.city|as_crispy_field}}</div>
+                <div class="col-md-6">{{form.state|as_crispy_field}}</div>
+              </div>
+               <div class="row">
+                  <div class="col-md-6">{{ form.country|as_crispy_field}}</div>
+              </div>
+              <br>
+              <h3>Special Achievements after Graduation</h3>
+              <div class="row">
+                  <div class="col-md-6">{{ form.special_achievement|as_crispy_field}}</div>
+              </div>
+              <br>
+              <h3>Higher Studies Details (If Any)</h3>
+               <div class="row">
+                  <div class="col-md-6">{{ form.present_status|as_crispy_field}}</div>
+                <div class="col-md-6">{{form.university_name|as_crispy_field}}</div>
+              </div>
+              <div class="row">
+                  <div class="col-md-6">{{ form.city_university|as_crispy_field}}</div>
+                <div class="col-md-6">{{form.state_university|as_crispy_field}}</div>
+              </div>
+               <div class="row">
+                  <div class="col-md-6">{{ form.country_university|as_crispy_field}}</div>
+              </div>
+              <br>
+              <h3>Present Residential Details</h3>
+               <div class="row">
+                  <div class="col-md-6">{{ form.city_current|as_crispy_field}}</div>
+                <div class="col-md-6">{{form.state_current|as_crispy_field}}</div>
+              </div>
+              <div class="row">
+                  <div class="col-md-6">{{ form.country_current|as_crispy_field}}</div>
+              </div>
+              <div class="row">
+                  <div class="col-md-6">{{ form.phone1|as_crispy_field}}</div>
+                <div class="col-md-6">{{form.phone2|as_crispy_field}}</div>
+              </div>
+                 <div class="row">
+                  <div class="col-md-6">{{ form.mobile|as_crispy_field}}</div>
+                <div class="col-md-6">{{form.email_id|as_crispy_field}}</div>
+              </div>
+              <br>
                 <button class="btn btn-danger" type="submit">Submit</button>
             </form>
                 </div>

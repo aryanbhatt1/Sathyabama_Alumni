@@ -81,6 +81,7 @@ class FacultyUser(models.Model):
     first_name = models.CharField('First Name', max_length=50, null=True)
     last_name = models.CharField('Last Name', max_length=50, null=True)
     gender = models.ForeignKey(Gender, on_delete=models.CASCADE, null=True)
+    degree = models.ForeignKey(Degree, on_delete=models.CASCADE, null=True)
     YearOfCompletion = models.ForeignKey(YearOfCompletion, on_delete=models.CASCADE, null=True)
     EmploymentType = models.ForeignKey(EmploymentType, on_delete=models.CASCADE, null=True)
     present_employer_name = models.CharField('Present Employer Name', max_length=50, blank=True, null=True)

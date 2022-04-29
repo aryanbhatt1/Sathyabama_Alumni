@@ -141,7 +141,10 @@
                                         <a href="javascript:void(0)">Authentication</a>
                                     </li>
                                     <li>
-                                        <a href="{% url 'viewUsers' %}" class="slide-item">Users</a>
+                                        <a href="{% url 'viewUsers' %}" class="slide-item">Manage Users</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'approveUsers' %}" class="slide-item">Approve Users</a>
                                     </li>
                                 </ul>
                             </li>
@@ -186,21 +189,17 @@
                                     {%for field in form%}
                                         <div>{{field|as_crispy_field}}</div>
                                     {%endfor%}
-
                                     <button type="submit" class="btn btn-danger">Save</button>
                                 </form>
-                                {% if messages %}
-                                    <ul class="messages">
-                                        {% for message in messages %}
-                                            <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
-                                        {% endfor %}
-                                    </ul>
-                                {% endif %}
+                                {% for message in messages %}
+                                  <div class="alert alert-success" style="margin-top: 30px">{{ message }}</div>
+                                {% endfor %}
                             </div>
                         </div>
-                        <!-- PAGE-HEADER END -->
                     </div>
+                        <!-- PAGE-HEADER END -->
                 </div>
+
             </div>
             <!-- FOOTER -->
             <footer class="footer">

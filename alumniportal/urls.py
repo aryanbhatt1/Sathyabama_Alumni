@@ -19,7 +19,11 @@ urlpatterns = [
     path('accounts/login/', views.UserLogin, name='login'),
     path('signup/UserDetails/<id>', views.UserDetailsForm, name='userDetails'),
     path('contact', views.contact, name='contact'),
-    path('viewEvent/<id>', views.EventView, name='viewEvent')
+    path('viewEvent/<id>', views.EventView, name='viewEvent'),
+    path('approveUsers', views.approveUsers, name='approveUsers'),
+    path('approve/<id>', views.ApproveUser, name='userApprove'),
+    path('deleteUser/<id>', views.deleteUser, name='deleteUser'),
+    path('manageUser/<id>', views.view_user_info, name='viewUserInfo')
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)

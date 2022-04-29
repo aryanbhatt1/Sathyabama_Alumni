@@ -42,13 +42,21 @@
             <div class="row justify-content-center mb-5">
                 {% for total in total %}
                 <div class="col-md-7 text-center heading-section heading-section-white reveal">
-                    <span class="subheading">More than {{ total.total }} Alumni</span>
+                    <span class="subheading">More than {{ total.total }} Users</span>
                 </div>
                 {% endfor %}
             </div>
             <div class="row justify-content-center">
                 <div class="col-md-10">
                     <div class="row">
+                      <div class="col-md-3 d-flex justify-content-center counter-wrap reveal">
+                            <div class="block-18 text-center">
+                                <div class="text">
+                                    <strong class="count" data-value="2">2</strong>
+                                    <span>Students</span>
+                                </div>
+                            </div>
+                        </div>
                         {% for row in overview %}
                         <div class="col-md-3 d-flex justify-content-center counter-wrap reveal">
                             <div class="block-18 text-center">
@@ -110,5 +118,6 @@
     }
     window.addEventListener("scroll", reveal);
     </script>
+
     {% endblock %}
 {% endblock %}

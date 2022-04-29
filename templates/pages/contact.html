@@ -24,12 +24,14 @@
                 <br>
                 <button class="btn btn-danger" type="submit">Submit</button>
             </form>
+                    {% for message in messages %}
+                                  <div class="alert alert-success" style="margin-top: 30px">{{ message }}</div>
+                                {% endfor %}
                 </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     {% include 'includes/footer.html' %}
     {% block js %}
     {% endblock %}
